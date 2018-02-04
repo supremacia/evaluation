@@ -1,0 +1,15 @@
+#img1 {
+	display: none;
+	width: 400px;
+}
+#img1 img {
+	width: 100%;
+}
+.hide {
+	display:  none;
+}
+.material-icons {
+    font-size: inherit !important;
+    vertical-align: middle;
+    margin: -2px -1px 2px -1px;
+}
