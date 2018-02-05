@@ -10,14 +10,6 @@ class AjaxController extends Controller
 	//static error message
 	static $error = false;
 
-
-	public function indexAction()
-	{
-		$imoveis = Imovel::find();
-		$this->view->setVar('imoveis', $imoveis);
-	}
-
-
 	/**
 	 * Receive the image, process it and send it back.
 	 * @todo   save locally and send only the link, with routine to delete the "rubbish" by default. 
@@ -84,37 +76,29 @@ class AjaxController extends Controller
 
 
 	/**
-	 * Receive, process and save data.
-	 * @return json success/error and error message description.
-	 */
-	function adicionarAction()
-	{
-		$filename = md5(uniqid(rand(), true)).'.jpg';
-		$filepath = BASE_PATH.'/public/media/'.$filename;
-		$fileurl = '/media/'.$filename;
-		
-		if(isset($_POST['realimagem'])){
-			file_put_contents($filepath, base64_decode(str_replace('data:image/jpeg;base64,','',$_POST['realimagem'])));
-		}
-
-		exit(print_r($_POST));
-	}
-
-	/**
 	 * Validação do código do imóvel
 	 * @return json success/error [opcional mesaage]
 	 */
 	public function validateCodigoAction()
 	{
 		if(isset($_POST['codigo'])){
-			$model = Imovel::find("codigo = '".$_POST['codigo']."'");
-
-			if(count($model) == 0) {
-           		self::sendJson();
-           	}
+			if(!self::codigoExisteAction($_POST['codigo'])){
+				self::sendJson();
+			}
 		}
 		static::$error = 'Código já cadastrado.';
         self::sendJson();
+	}
+
+
+	/**
+	 * Validação do código do imóvel - no DB (para reutilização)
+	 * @return bool true/false 
+	 */
+	public static function codigoExisteAction($codigo)
+	{
+		$model = Imovel::find("codigo = '".$codigo."'");
+		return !(count($model) == 0);
 	}
 
 
@@ -124,10 +108,13 @@ class AjaxController extends Controller
 	 * @param  array  $data array of data t send
 	 * @return json         formated json data for http
 	 */
-	static function sendJson($data = [])
+	static function sendJson(array $data = [], string $errorMessage = null)
 	{
 		ob_end_clean();
         ob_start('ob_gzhandler');
+
+        //set new error message
+        if($errorMessage !== null) static::$error = $errorMessage;
 
         //Add params
         if(static::$error !== false) {

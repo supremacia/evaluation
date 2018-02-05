@@ -2,7 +2,7 @@
 
 // ------------------------------------------------ hacked BEGIN
 // REMOVE this in Apache (and others) | this is to run on PHP buit-server, only.
-$_GET['_url'] = $_SERVER['REQUEST_URI'];
+//$_GET['_url'] = $_SERVER['REQUEST_URI'];
 // ------------------------------------------------ hacked END
 
 

@@ -1,9 +1,5 @@
 var TMP;
-var IMG = {name:'',url:'',action:'delete'}; //upload data 
-const UPIMGURL = '/upload/image'; // upload url
-const URLSAVE = '/upload/adicionar';
-const URLVALCOD = '/upload/validar/codigo'; 
-const URLBACK = '/imoveis';
+var IMG = {name:'',url:'',action:'delete'}; //upload data object
 
 $(document).ready(function(){
 
@@ -56,6 +52,7 @@ $(document).ready(function(){
 	        }
 	    });
 
+		//Mask to "Real" currency
 		$("#valor").inputmask('decimal', {
                 'alias': 'numeric',
                 'groupSeparator': '.',
@@ -68,7 +65,7 @@ $(document).ready(function(){
                 'placeholder': ''
     	});
 
-
+		//datapicker setup for pt-Br
     	$('#data_expiracao').datepicker({
 		   dateFormat: 'dd/mm/yy',
 		   dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
@@ -133,9 +130,24 @@ $(document).ready(function(){
     		return false;
     	}
  	   	
+
+ 	   	//Send to server...
     	$.post(URLSAVE, $("#formImovel").serialize())
     	 .done(function(data){
-    	 	console.log(data)
+
+    	 	if("undefined" !== typeof data.status){
+    	 		if(data.status == 'success'){
+    	 			showModal('Sucesso!', 'A publicação foi salva com sucesso.', 'Ok',null, null, null, true, function(e){document.location = URLLIST}); 	 		
+    	 			return true;
+    	 		}
+
+    	 		if("undefined" !== typeof data.error && data.campo !== 'all'){
+    	 			showPopover(data.campo, 'Inválido', data.error);
+    	 			return false;
+    	 		}
+    	 	}
+
+    	 	showModal('Tivemos um problema!', 'A publicação não pode ser salva<br>Procure ajuda do administrador do sistema.', 'Ok',null, null, null, true, function(e){document.location = URLLIST});
     	 })	
 
 	});
@@ -179,12 +191,59 @@ function showPopover(e, title, content, time){
 	 		title: title,
 	 		content: content
 	 	})
-	 	$('#'+e).popover('show')
-	 	setTimeout(function(){$('#'+e).popover('hide').val('')},time);
+	 	$('#'+e).popover('show').val('');
+	 	setTimeout(function(){$('#'+e).popover('hide')},time);
 }
 
 
 //Cancelar
 function cancelar(){
-	document.location = URLBACK;
+	document.location = URLLIST;
+}
+
+
+function showModal(title, content, closeTxt, goTxt, closeFunction, goFunction, locked, hideCalback){
+
+	title = title || 'Título';
+	content = content || 'Mensagem';
+	closeTxt = closeTxt || false;
+	goTxt = goTxt || false;
+	closeFunction = closeFunction || false;
+	goFunction = goFunction || false;
+	locked = locked || false;
+
+	if(closeFunction) closeFunction += '()';
+	if(goFunction) goFunction += '()';
+	locked = locked !== false ? 'static' : true;
+
+
+	var m = document.getElementById('jsmodal');
+	if(!m){
+		m = document.createElement('DIV');
+		m.id = 'jsmodal';
+		document.body.appendChild(m);
+	}
+
+	m.innerHTML = '<div class="modal fade" id="jsmodalmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">'
+				 +'<div class="modal-dialog" role="document">'
+				 +'<div class="modal-content">'
+				 +'<div class="modal-header">'
+				 +'<h5 class="modal-title" id="jsModalLabel">'+title+'</h5>'
+				 +'<button type="button" class="close" data-dismiss="modal" aria-label="Close">'
+				 +'<span aria-hidden="true">&times;</span>'
+				 +'</button>'
+				 +'</div>'
+				 +'<div class="modal-body">'
+				 +content
+				 +'</div>'
+				 +'<div class="modal-footer">'
+				 +(closeTxt ? '<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="'+closeFunction+'">'+closeTxt+'</button>' : '')
+				 +(goTxt ? '<button type="button" class="btn btn-primary" onclick="'+goFunction+'">'+goTxt+'</button>' : '')
+				 +'</div>'
+				 +'</div>'
+				 +'</div>'
+				 +'</div>';
+	
+	$('#jsmodalmodal').modal({keyboard: false, backdrop: locked, show: true});
+	$('#jsmodalmodal').on('hidden.bs.modal', hideCalback ) 
 }

@@ -13,10 +13,7 @@ class Imovel extends Model
         $this->belongsTo('tipo_imovel_id', 'TipoImovel', 'id');
         $this->belongsTo('filial_id', 'Filial', 'id');
         $this->belongsTo('logradouro_id', 'Logradouro', 'id');
-        $this->hasMany('id', 'ImovelImagem', 'imovel_id');
-
-        //$this->hasOne('id', 'ImovelImagem', 'id');
-        
+        $this->hasMany('id', 'ImovelImagem', 'imovel_id');        
     }
 
     public function getId()

@@ -10,7 +10,7 @@
         <form class="was-validated" id="formImovel">
             <div class="row"><div class="col-sm-12"><hr></div></div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 mb-4">
                     <h3>Dados Básicos</h3>
                 </div>
             </div>
@@ -42,7 +42,7 @@
 
             <div class="row"><div class="col-sm-12"><hr></div></div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 mb-4">
                     <h3>Localização</h3>
                 </div>
             </div>
@@ -63,7 +63,7 @@
 
             <div class="row"><div class="col-sm-12"><hr></div></div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 mb-4">
                     <h3>Valor</h3>
                 </div>
             </div>
@@ -93,7 +93,7 @@
 
             <div class="row"><div class="col-sm-12"><hr></div></div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 mb-4">
                     <h3>Imagem</h3>
                 </div>
             </div>
@@ -113,7 +113,7 @@
 
             <div class="row"><div class="col-sm-12"><hr></div></div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 mb-4">
                     <h3>Detalhes</h3>
                 </div>
             </div>
@@ -145,7 +145,7 @@
 
             <div class="row"><div class="col-sm-12"><hr></div></div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 mb-4">
                     <h3>Publicação</h3>
                 </div>
             </div>
@@ -182,18 +182,15 @@
 
 
             <!-- Control Buttons -->
-            <div class="row"><div class="col-sm-12"><hr></div></div>
+            <div class="row"><div class="col-sm-12 mb-4"><hr></div></div>
             <div class="row">
-                <div class="form-group  col-sm-12">
-                    <button type="button" onclick="return deleteImovel()" class="btn btn-danger"><i class="material-icons">delete</i> Apagar</button>
+                <div class="form-group  col-sm-12 mb-4">
                     <button type="button" onclick="return cancelar()" class="btn btn-primary"><i class="material-icons">arrow_back</i> Cancelar</button>
                     <button type="submit" class="btn btn-success"><i class="material-icons">cloud_upload</i> Salvar</button>
                 </div>
             </div>
             
         </form>
-
-        <div class="row"><div class="col-sm-12"><hr></div></div>
 
 
     </div>

@@ -1,5 +1,6 @@
 {% extends "layouts/template.volt" %}
 {% block content %}
+
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -7,7 +8,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-9 mb-4">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="bairro/cidade/rua ...">
                     <select name="tipo_imovel" id="tipo_imovel" class="custom-select form-control" style="max-width:120px">
@@ -39,12 +40,14 @@
                     </tr>
                     {% for imovel in imoveis %}
                         <tr>
-                            <td>{{ imovel.codigo}}</td>
+                            <td>{{ imovel.codigo }}</td>
                             <td>{{ imovel.tipoimovel.nome }}</td>
                             <td align="right"><?php echo number_format(($imovel->tipo_negocio == "V" ? $imovel->valor_venda : $imovel->valor_aluguel), 2, ',', '.')?></td>
                             <td>
                                 <a href="{{ url(['for':'site.imovel.visualizar', 'id':imovel.id])}}" class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Ver dados completos"><i class="material-icons text-success">visibility</i> </a>
+
                                 <a href="{{ url(['for':'site.imovel.editar', 'id':imovel.id])}}" class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Editar este imóvel"><i class="material-icons text-primary">create</i> </a>
+                                
                                 <a href="{{ url(['for':'site.imovel.remover', 'id':imovel.id])}}" class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Remover este imóvel"><i class="material-icons text-danger">delete</i> </a>
                             </td>
                         </tr>
